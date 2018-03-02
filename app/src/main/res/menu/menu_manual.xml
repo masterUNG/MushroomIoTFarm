@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itemLight"
+        android:icon="@drawable/ic_action_light"
+        android:title="Light"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/itemFan"
+        android:icon="@drawable/ic_action_fan"
+        android:title="Fan"
+        app:showAsAction="always"/>
+
+    <item
+    android:id="@+id/itemCloud"
+    android:icon="@drawable/ic_action_cloud"
+    android:title="Cloud"
+    app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/itemCCTV"
+        android:icon="@drawable/ic_action_cctv"
+        android:title="CCTV"
+        app:showAsAction="always"/>
+</menu>
