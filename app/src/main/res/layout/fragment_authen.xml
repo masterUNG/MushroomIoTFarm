@@ -37,7 +37,7 @@
         <!--Textfield-->
         <EditText
             android:id="@+id/editUser"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:hint="User :"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
