@@ -23,7 +23,10 @@ import com.example.soulf.mushroomiotfarm.R;
 
 public class ManualFragment extends Fragment {
     private String urlField1 = "https://thingspeak.com/channels/437884/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15";
-    private String urlField2 = "https://thingspeak.com/channels/437884/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15";
+    private String urlField2 = "https://thingspeak.com/channels/437884/charts/2?average=10&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Light&type=line";
+    private String urlField3 = "https://thingspeak.com/channels/437884/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15";
+    private String urlField4 = "https://thingspeak.com/channels/437884/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15";
+    private String urlField5 = "https://thingspeak.com/channels/437884/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15";
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -73,7 +76,11 @@ public class ManualFragment extends Fragment {
 
     private void createWebView() {
         WebView field1WebView = getView().findViewById(R.id.webViewTemp);
-        WebView field2WebView = getView().findViewById(R.id.webViewHumidity);
+        WebView field2WebView = getView().findViewById(R.id.webViewFan);
+        WebView field3WebView = getView().findViewById(R.id.webViewlight);
+        WebView field4WebView = getView().findViewById(R.id.webViewCCTV);
+        WebView field5WebView = getView().findViewById(R.id.webViewHumidity);
+
 
         WebViewClient field1WebViewClient = new WebViewClient();
         field1WebView.setWebViewClient(field1WebViewClient);
@@ -84,6 +91,21 @@ public class ManualFragment extends Fragment {
         field2WebView.setWebViewClient(field2WebViewClient);
         field2WebView.loadUrl(urlField2);
         field2WebView.getSettings().setJavaScriptEnabled(true);
+//
+        WebViewClient field3WebViewClient = new WebViewClient();
+        field3WebView.setWebViewClient(field3WebViewClient);
+        field1WebView.loadUrl(urlField3);
+        field1WebView.getSettings().setJavaScriptEnabled(true);
+//
+        WebViewClient field4WebViewClient = new WebViewClient();
+        field4WebView.setWebViewClient(field4WebViewClient);
+        field1WebView.loadUrl(urlField4);
+        field1WebView.getSettings().setJavaScriptEnabled(true);
+//
+        WebViewClient field5WebViewClient = new WebViewClient();
+        field5WebView.setWebViewClient(field5WebViewClient);
+        field1WebView.loadUrl(urlField5);
+        field1WebView.getSettings().setJavaScriptEnabled(true);
     }
 
     private void createToolbar() {

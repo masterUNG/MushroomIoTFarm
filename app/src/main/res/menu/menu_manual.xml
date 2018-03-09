@@ -9,6 +9,7 @@
         app:showAsAction="always"/>
 
     <item
+        
         android:id="@+id/itemFan"
         android:icon="@drawable/ic_action_fan"
         android:title="Fan"

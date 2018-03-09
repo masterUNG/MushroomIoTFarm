@@ -32,6 +32,22 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></WebView>
+            <WebView
+                android:id="@+id/webViewlight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+            <WebView
+                android:id="@+id/webViewCloud"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+            <WebView
+                android:id="@+id/webViewFan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+            <WebView
+                android:id="@+id/webViewCCTV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
         </LinearLayout>
     </ScrollView>
 

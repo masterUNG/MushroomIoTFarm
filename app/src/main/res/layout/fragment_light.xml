@@ -5,13 +5,14 @@
     <TextView
         android:id="@+id/txtLight"
         android:text="0"
-        android:textColor="#ffffff"
+        android:textColorHighlight="#ffffff"
         android:textSize="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnOn"
+
         android:text="on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
