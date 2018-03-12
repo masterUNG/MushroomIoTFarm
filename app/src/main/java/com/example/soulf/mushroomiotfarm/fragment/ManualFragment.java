@@ -59,16 +59,31 @@ public class ManualFragment extends Fragment {
 //        Fan
         if (item.getItemId() == R.id.itemFan) {
 //            Do it
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentMainFragment, new FanFragment())
+                    .addToBackStack(null)
+                    .commit();
             return true;
         }
 //        Cloud
         if (item.getItemId() == R.id.itemCloud) {
 //            Do it
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentMainFragment, new CloudFragment())
+                    .addToBackStack(null)
+                    .commit();
             return true;
         }
 //        CCTV
         if (item.getItemId() == R.id.itemCCTV) {
 //            Do it
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentMainFragment, new CCTVFragment())
+                    .addToBackStack(null)
+                    .commit();
             return true;
         }
         return super.onOptionsItemSelected(item);
