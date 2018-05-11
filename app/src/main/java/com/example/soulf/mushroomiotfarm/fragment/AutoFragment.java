@@ -1,6 +1,6 @@
 package com.example.soulf.mushroomiotfarm.fragment;
 
-
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,14 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.example.soulf.mushroomiotfarm.MainActivity;
 import com.example.soulf.mushroomiotfarm.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,47 +27,57 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by soulf on 3/2/2018.
- */
+public class AutoFragment extends Fragment{
 
-public class LightFragment extends Fragment {
-    private DatabaseReference databaseReference;
-    private String LightString;
-    private String urlField3 = "https://thingspeak.com/channels/437884/charts/2?average=10&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Light&type=line";
-    private FirebaseDatabase firebaseDatabase;
+    private String tempString, humidityString;
+    private EditText tempEditText, humiEditText;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-//        Get Value From Firebase
-        getValueFromFirebase();
+//        Show View
+        showView();
 
-//      On Controller
-        onController();
-
-//        Off Controller
-        offController();
-
-//      create WebView
-        createWebView();
-
+//        Create Toolbar
         createToolbar();
 
-    } // Main Method
+    }   // Main Method
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //        Sign Out
+//        Update To Firebase
+        if (item.getItemId() == R.id.itemUpdate) {
+            updateNewValueToFirebase();
+        }
+
+//        Next
+        if (item.getItemId() == R.id.itemNext) {
+            nextToGraph();
+        }
+
+//        Sign Out
         if (item.getItemId() == R.id.itemSignOut) {
             mySignOut();
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void nextToGraph() {
+
+        getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contentMainFragment, new GraphAutoFragment())
+                .addToBackStack(null)
+                .commit();
+
     }
 
     private void mySignOut() {
@@ -84,17 +92,54 @@ public class LightFragment extends Fragment {
                 .replace(R.id.contentMainFragment, new AuthenFragment())
                 .commit();
 
+
+
+    }
+
+    private void updateNewValueToFirebase() {
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Process Upload Value to Firebase ...");
+        progressDialog.show();
+
+        tempString = tempEditText.getText().toString().trim();
+        humidityString = humiEditText.getText().toString().trim();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Map<String, Object> stringObjectMap = new HashMap<>();
+                stringObjectMap.put("Temp", tempString);
+                stringObjectMap.put("Humidity", humidityString);
+                databaseReference.updateChildren(stringObjectMap);
+                progressDialog.dismiss();
+                nextToGraph();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_graph, menu);
+        inflater.inflate(R.menu.menu_auto, menu);
     }
 
     private void createToolbar() {
 
-        Toolbar toolbar = getView().findViewById(R.id.toolbarLight);
+        Toolbar toolbar = getView().findViewById(R.id.toolbarAuto); // Initial View
+
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.temp_th));
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(getString(R.string.update_th));
@@ -113,45 +158,25 @@ public class LightFragment extends Fragment {
 
     }
 
-    private void offController() {
-        Button button = getView().findViewById(R.id.btnOff);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateLight("OFF");
-            }
-        });
-    }
+    private void showView() {
 
-    private void updateLight(String lightString) {
-        Map<String, Object> stringObjectMap = new HashMap<>();
-        stringObjectMap.put("Light", lightString);
-        databaseReference.updateChildren(stringObjectMap);
+        tempEditText = getView().findViewById(R.id.edtTemp);
+        humiEditText = getView().findViewById(R.id.edtHumidity);
 
-    }
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    private void onController() {
-        Button button = getView().findViewById(R.id.btnOn);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateLight("ON");
-            }
-        });
-    }
-
-    private void getValueFromFirebase() {
-
-        final TextView textView = getView().findViewById(R.id.txtLight);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map map = (Map) dataSnapshot.getValue();
-                LightString = String.valueOf(map.get("Light"));
 
-                textView.setText(LightString);
+                Map map = (Map) dataSnapshot.getValue();
+                tempString = String.valueOf(map.get("Temp"));
+                humidityString = String.valueOf(map.get("Humidity"));
+
+                tempEditText.setText(tempString);
+                humiEditText.setText(humidityString);
+
             }
 
             @Override
@@ -159,24 +184,14 @@ public class LightFragment extends Fragment {
 
             }
         });
-    }
 
-    private void createWebView() {
-
-        WebView field3WebView = getView().findViewById(R.id.webViewlight);
-
-        WebViewClient field3WebViewClient = new WebViewClient();
-        field3WebView.setWebViewClient(field3WebViewClient);
-        field3WebView.loadUrl(urlField3);
-        field3WebView.getSettings().setJavaScriptEnabled(true);
-//
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_light, container, false);
+        View view = inflater.inflate(R.layout.fragment_auto, container, false);
         return view;
     }
 }

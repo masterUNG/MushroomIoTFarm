@@ -22,11 +22,33 @@ public class MainFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 //        Manual Controller
         manualController();
 
+//        Auto Cntroller
+        autoCntroller();
 
     } //Main Method
+
+    private void autoCntroller() {
+        Button button = getView().findViewById(R.id.btnAuto);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                Replace Fragment
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.contentMainFragment, new AutoFragment())
+                        .addToBackStack(null)
+                        .commit();
+
+
+            }
+        });
+    }
 
     private void manualController() {
         Button button = getView().findViewById(R.id.btnManual);
