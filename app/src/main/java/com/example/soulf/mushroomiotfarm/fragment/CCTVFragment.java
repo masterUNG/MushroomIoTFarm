@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import java.util.Map;
  */
 
 public class CCTVFragment extends Fragment {
+    private String urlField4 = "https://thingspeak.com/channels/437884/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=CCTVSw&type=line";
     private DatabaseReference databaseReference;
     private String CCTVString;
     private FirebaseDatabase firebaseDatabase;
@@ -32,7 +35,7 @@ public class CCTVFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //                Get Value From Firebase
         getValueFromFirebase();
 //      On Controller
@@ -41,10 +44,12 @@ public class CCTVFragment extends Fragment {
 //        Off Controller
         OffController();
 
+        createWebView();
 
 
 
     }  //Main method
+
 
     private void OffController() {
         Button button = getView().findViewById(R.id.btnOff);
@@ -94,8 +99,16 @@ public class CCTVFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        })
+        });
 
+    }
+    private void createWebView() {
+        WebView field4WebView = getView().findViewById(R.id.webViewCCTV);
+
+        WebViewClient field4WebViewClient = new WebViewClient();
+        field4WebView.setWebViewClient(field4WebViewClient);
+        field4WebView.loadUrl(urlField4);
+        field4WebView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Nullable

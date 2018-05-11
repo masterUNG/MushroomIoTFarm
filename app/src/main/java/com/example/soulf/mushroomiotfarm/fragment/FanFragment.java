@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import java.util.Map;
  */
 
 public class FanFragment extends Fragment {
+    private String urlField2 = "https://thingspeak.com/channels/437884/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=FanSw&type=line";
     private DatabaseReference databaseReference;
     private String FanString;
     private FirebaseDatabase firebaseDatabase;
@@ -32,7 +35,7 @@ public class FanFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //        Get Value From Firebase
         getValueFromFirebase();
@@ -42,8 +45,18 @@ public class FanFragment extends Fragment {
 //        Off Controller
         OffController();
 
+        createWebView();
 
     } //Main method
+
+    private void createWebView() {
+        WebView field2WebView = getView().findViewById(R.id.webViewFan);
+
+        WebViewClient field2WebViewClient = new WebViewClient();
+        field2WebView.setWebViewClient(field2WebViewClient);
+        field2WebView.loadUrl(urlField2);
+        field2WebView.getSettings().setJavaScriptEnabled(true);
+    }
 
     private void OffController() {
         Button button = getView().findViewById(R.id.btnOff);

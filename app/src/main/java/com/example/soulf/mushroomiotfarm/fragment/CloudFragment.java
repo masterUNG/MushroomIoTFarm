@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -28,11 +30,11 @@ public class CloudFragment extends Fragment {
     private DatabaseReference databaseReference;
     private String CloudString;
     private FirebaseDatabase firebaseDatabase;
-
+    private String urlField5 = "https://thingspeak.com/channels/437884/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=CloudSw&type=line";
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //                Get Value From Firebase
         getValueFromFirebase();
 //      On Controller
@@ -40,9 +42,17 @@ public class CloudFragment extends Fragment {
 
 //        Off Controller
         OffController();
-
+        createWebView();
     }  //Main method
 
+    private void createWebView() {
+        WebView field5WebView = getView().findViewById(R.id.webViewCloud);
+
+        WebViewClient field5WebViewClient = new WebViewClient();
+        field5WebView.setWebViewClient(field5WebViewClient);
+        field5WebView.loadUrl(urlField5);
+        field5WebView.getSettings().setJavaScriptEnabled(true);
+    }
 
 
     private void OffController() {

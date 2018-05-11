@@ -12,16 +12,36 @@
 
     <Button
         android:id="@+id/btnOn"
+        android:textColor="#34cf0a"
         android:text="on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnOff"
+        android:textColor="#f90d0d"
         android:text="off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:background="#c8ffffff"
+            android:padding="@dimen/padding"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:id="@+id/webViewFan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
 
 

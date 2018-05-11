@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import java.util.Map;
 public class LightFragment extends Fragment {
     private DatabaseReference databaseReference;
     private String LightString;
+    private String urlField3 = "https://thingspeak.com/channels/437884/charts/2?average=10&bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Light&type=line";
     private FirebaseDatabase firebaseDatabase;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -42,7 +45,8 @@ public class LightFragment extends Fragment {
 
 //        Off Controller
         offController();
-
+//   create WebView
+        createWebView();
 
     } // Main Method
 
@@ -93,7 +97,17 @@ public class LightFragment extends Fragment {
             }
         });
     }
+    private void createWebView() {
 
+        WebView field3WebView = getView().findViewById(R.id.webViewlight);
+
+        WebViewClient field3WebViewClient = new WebViewClient();
+        field3WebView.setWebViewClient(field3WebViewClient);
+        field3WebView.loadUrl(urlField3);
+        field3WebView.getSettings().setJavaScriptEnabled(true);
+//
+
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
